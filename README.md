@@ -29,7 +29,7 @@ Now you can use _Container Station_ to start image [tpimages/qnap-git-server](ht
 Now your server is up and running. You can connect to it via SSH to create a bare repository:
 
 ```
-$ ssh -p 2222 git@my-qnap.localhost
+$ ssh -p 2222 git@my-qnap.local
 $ mkdir pub/project.git
 $ cd pub/project.git/
 $ git init --bare
@@ -38,7 +38,7 @@ Initialized empty Git repository in /home/git/pub/project.git/
 
 and then you can clone the repository
 ```
-$ git clone ssh://git@localhost:2222/pub/project.git
+$ git clone ssh://git@my-qnap.local:2222/pub/project.git
 ```
 
 
