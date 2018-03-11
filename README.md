@@ -14,10 +14,10 @@ $ ssh admin@my-qnap.local
 [/share] mkdir -p git/.ssh
 [/share] mkdir git/pub
 [/share] echo “---your public key from ~/.ssh/id_rsa.pub---” > git/.ssh/authorized_keys
-[/share] # chown 1000:1000 -R git/
-[/share] # chmod 700 git/
-[/share] # chmod 700 git/.ssh/
-[/share] # chmod 600 git/.ssh/authorized_keys
+[/share] chown 1000:1000 -R git/
+[/share] chmod 700 git/
+[/share] chmod 700 git/.ssh/
+[/share] chmod 600 git/.ssh/authorized_keys
 ```
 
 Now you can use _Container Station_ to start image [tpimages/qnap-git-server](https://hub.docker.com/r/tpimages/qnap-git-server/) - you have to mount prepared directory as /home/git and expose port 22 as for example 2222 to connect it from your local network. You can also start it from command line:
