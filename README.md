@@ -1,7 +1,9 @@
 # qnap-git-server
+
 Host your own Git repositories on QNAP server
 
 ## Introduction
+
 QNAP is a linux-based Network Attached Storage. It has a lot of nice features but there is no option for hosting git repositories by default. Fortunately there is an application named _Container Station_ which allows you to run Docker or LXC images. So it’s pretty easy to extend functions and for example install _GitLab_ to host git repositories (it’s QNAP recommendation). _Gitlab_ is a quite big system and if you need a just simple git server you can use this [qnap-git-server](https://github.com/tomplus/qnap-git-server).
 
 ## Instalation
@@ -52,4 +54,9 @@ docker build -t qnap-git-server:my-own-version .
 
 
 ## Troubleshooting
-To check logs from syslogd you can use command `docker exec` to exec command `logread`.
+
+Structure of file `git/.ssh/authorized_keys` requires that each key is stored in separate lines.
+If you store there only one key, ensure that there are not additional new lines `\n`.
+
+To check logs from syslogd you can use command `docker exec` to run `syslogd`. It'll start the deamon
+syslogd and all logs will be writting to /var/log/messages.
