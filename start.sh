@@ -23,7 +23,7 @@ if [ "$(stat -c %a%u%g /home/git/.ssh/authorized_keys)" != "60010001000" ]; then
     exit 1
 fi
 
-if [ ! -f "/pub" ]; then
+if [ ! -e "/pub" ]; then
     ln -s /home/git/pub /pub
 fi
 
