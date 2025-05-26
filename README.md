@@ -4,7 +4,9 @@ Host your own Git repositories on QNAP server
 
 ## Introduction
 
-QNAP is a linux-based Network Attached Storage. It has a lot of nice features but there is no option for hosting git repositories by default. Fortunately there is an application named _Container Station_ which allows you to run Docker or LXC images. So it’s pretty easy to extend functions and for example install _GitLab_ to host git repositories (it’s QNAP recommendation). _Gitlab_ is a quite big system and if you need a just simple git server you can use this [qnap-git-server](https://github.com/tomplus/qnap-git-server).
+QNAP is a linux-based Network Attached Storage. It has a lot of nice features but there is no option for hosting git repositories by default. Fortunately there is an application named _Container Station_ which allows you to run Docker or LXC images. So it’s pretty easy to extend functions and for example install _GitLab_ to host git repositories (it’s QNAP recommendation). _Gitlab_ is a quite big system and if you need a just simple git server you can use this [xrubioj/qnap-git-server](https://github.com/xrubioj/qnap-git-server).
+
+This project is based on the unmaintained [tomplus/qnap-git-server](https://github.com/tomplus/qnap-git-server), but it has been rewritten from the scratch to use a more lightweight alternative (Alpine Linux). Also, it builds images for Intel/AMD and ARM CPUs.
 
 ## Instalation
 
@@ -22,7 +24,7 @@ $ ssh admin@my-qnap.local
 [/share] chmod 600 git/.ssh/authorized_keys
 ```
 
-Now you can use _Container Station_ to start the image [tpimages/qnap-git-server](https://hub.docker.com/r/tpimages/qnap-git-server/). This image is prepared for arm32v7 only.
+Now you can use _Container Station_ to start the image [xrubioj/qnap-git-server](https://hub.docker.com/r/xrubioj/qnap-git-server/). This image is prepared for linux/amd64, linux/386, linux/arm/v7 (32 bits) and linux/arm64.
 You have to mount prepared directory as /home/git and expose port 22 as for example 2222 to connect it from your local network. You can also start it from command line:
 
 ```
@@ -61,15 +63,3 @@ If you store there only one key, ensure that there are not additional new lines 
 
 To check logs from syslogd you can use command `docker exec` to run `syslogd`. It'll start the deamon
 syslogd and all logs will be writting to /var/log/messages.
-
-If you get errors like `exec user process caused "exec format error"` it means that your qnap
-has different architecture (eg. amd64) than the prepared image (arm32v7). It this case try to replace
-the base image in `Dockerfile` from
-```
-FROM arm32v7/ubuntu:14.04
-```
-to for example:
-```
-FROM amd64/ubuntu:14.04
-```
-and build your own image.
