@@ -43,7 +43,7 @@ Initialized empty Git repository in /home/git/pub/project.git/
 
 and then you can clone the repository
 ```
-$ git clone ssh://git@my-qnap.local:2222/pub/project.git
+$ git clone ssh://git@my-qnap.local:2222/home/git/pub/project.git
 ```
 
 
