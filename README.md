@@ -6,11 +6,21 @@ Host your own Git repositories on QNAP server
 
 QNAP is a linux-based Network Attached Storage. It has a lot of nice features but there is no option for hosting git repositories by default. Fortunately there is an application named _Container Station_ which allows you to run Docker or LXC images. So it’s pretty easy to extend functions and for example install _GitLab_ to host git repositories (it’s QNAP recommendation). _Gitlab_ is a quite big system and if you need a just simple git server you can use this [xrubioj/qnap-git-server](https://github.com/xrubioj/qnap-git-server).
 
-This project is based on the unmaintained [tomplus/qnap-git-server](https://github.com/tomplus/qnap-git-server), but it has been rewritten from the scratch to use a more lightweight alternative (Alpine Linux). Also, it builds images for Intel/AMD and ARM CPUs.
+This project is based on [tomplus/qnap-git-server](https://github.com/tomplus/qnap-git-server), but it has been rewritten from the scratch to use a more lightweight alternative (Alpine Linux). Also, it builds images for Intel/AMD and ARM CPUs.
 
 ## Instalation
 
 First, you have to prepare a directory which will be attached to Docker. This directory has to contain your ssh public key and it is also a place where your repositories will be stored.
+
+You can use the following script:
+
+```
+$ ./init.sh <user>@<qnap-address> <ssh-public-key-path>
+# e.g.
+$ ./init.sh admin@my-qnap.local ~/.ssh/id_rsa.pub
+```
+
+Alternatively, you can run the steps manually by `ssh`ing to your QNAP box as `admin` and manually running the commands like so:
 
 ```
 $ ssh admin@my-qnap.local
@@ -31,21 +41,38 @@ You have to mount prepared directory as /home/git and expose port 22 as for exam
 [~] docker run -d -v /share/git:/home/git -p 2222:22 --rm tpimages/qnap-git-server:latest
 ```
 
+## Accessing git repositories from your home directory
+
+You can link your `pub` directory to be visible from your QNAP user's home directory. In my case:
+
+```
+$ ssh -p 2222 git@my-qnap.local
+
+# Confirm where /share/homes point to
+[~] ls -l /share/homes
+lrwxrwxrwx 1 admin administrators 23 2024-08-16 09:25 /share/homes -> CE_CACHEDEV1_DATA/homes/
+
+# Link /share/git to git directory in your user network share (based on the result of the previous ls command)
+[~] ln -s /share/git/ /share/CE_CACHEDEV1_DATA/homes/my_user/git
+```
+
+## Creating your first repository
+
 Now your server is up and running. You can connect to it via SSH to create a bare repository:
 
 ```
 $ ssh -p 2222 git@my-qnap.local
-$ mkdir pub/project.git
-$ cd pub/project.git/
-$ git init --bare
+[~] mkdir pub/project.git
+[~] cd pub/project.git/
+[~] git init --bare
 Initialized empty Git repository in /home/git/pub/project.git/
 ```
 
-and then you can clone the repository
+and then you can clone the repository:
+
 ```
 $ git clone ssh://git@my-qnap.local:2222/home/git/pub/project.git
 ```
-
 
 ## Building
 
@@ -54,7 +81,6 @@ If you want to build you own custom version of this image your can do it simple 
 ```
 docker build -t qnap-git-server:my-own-version .
 ```
-
 
 ## Troubleshooting
 
