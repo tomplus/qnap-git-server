@@ -26,7 +26,7 @@ Now you can use _Container Station_ to start the image [tpimages/qnap-git-server
 You have to mount prepared directory as /home/git and expose port 22 as for example 2222 to connect it from your local network. You can also start it from command line:
 
 ```
-[~] docker run -d -v /share/git:/home/git -p 2222:22 --rm tpimages/qnap-git-server:latest
+[~] docker run -d -v /share/git:/home/git -p 2222:22 --name qnap-git-server tpimages/qnap-git-server:latest
 ```
 
 Now your server is up and running. You can connect to it via SSH to create a bare repository:
