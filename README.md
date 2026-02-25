@@ -16,7 +16,7 @@ $ ssh admin@my-qnap.local
 [/share] mkdir -p git/.ssh
 [/share] mkdir git/pub
 [/share] echo “---your public key from ~/.ssh/id_rsa.pub---” > git/.ssh/authorized_keys
-[/share] chown 1000:1000 -R git/
+[/share] chown 10000:10000 -R git/
 [/share] chmod 700 git/
 [/share] chmod 700 git/.ssh/
 [/share] chmod 600 git/.ssh/authorized_keys
@@ -66,10 +66,10 @@ If you get errors like `exec user process caused "exec format error"` it means t
 has different architecture (eg. amd64) than the prepared image (arm32v7). It this case try to replace
 the base image in `Dockerfile` from
 ```
-FROM arm32v7/ubuntu:14.04
+FROM arm32v7/ubuntu:25.10
 ```
 to for example:
 ```
-FROM amd64/ubuntu:14.04
+FROM amd64/ubuntu:25.10
 ```
 and build your own image.
